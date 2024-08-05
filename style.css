@@ -11,30 +11,25 @@ body {
     height: 100%;
     background-color: #333;
     color: #fff;
-    transition: left 0.3s ease; /* Smooth transition */
+    transition: left 0.3s ease, display 0s step-start; /* Smooth transition for sliding */
     padding: 20px;
     box-shadow: 2px 0 5px rgba(0, 0, 0, 0.3);
     z-index: 1000; /* Ensure it is above other content */
+    display: none; /* Start with display none */
 }
 
 /* Styles when the sidebar is active (visible) */
 .side-menu.active {
+    display: inline-block; /* Make sidebar visible */
+}
+
+/* Styles for sliding in and out */
+.side-menu.slide-in {
     left: 0; /* Move sidebar into view */
 }
 
-/* Styling for menu items */
-.menu-item {
-    margin: 15px 0;
-}
-
-.menu-item a {
-    color: #fff;
-    text-decoration: none;
-    font-size: 18px;
-}
-
-.menu-item a:hover {
-    text-decoration: underline;
+.side-menu.slide-out {
+    left: -250px; /* Move sidebar out of view */
 }
 
 /* Styles for the blurred background effect */
@@ -43,13 +38,11 @@ body {
     transition: filter 0.3s ease; /* Smooth transition */
 }
 
-/* Example styling for body content */
+/* Ensure the content area is not affected */
 #body {
     transition: filter 0.3s ease; /* Smooth transition */
 }
 
-/* Ensure the content area is not affected */
 #content {
     transition: filter 0.3s ease; /* Smooth transition */
 }
-
