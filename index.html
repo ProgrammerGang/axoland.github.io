@@ -16,13 +16,40 @@
   font-family: Arial;
 }
       
- 
+ /* Initial state */
+#sideMenu {
+    display: none;
+    position: fixed;
+    top: 0;
+    left: -250px; /* Adjust based on your menu width */
+    transition: left 0.3s ease, display 0.1s; /* Slide animation */
+}
+
+#sideMenu.active {
+    display: block;
+    left: 0;
+}
+
+#body.blur-effect {
+    filter: blur(5px); /* Adjust the blur amount as needed */
+}
+
+#menuIcon {
+    display: none; /* Hidden by default */
+    cursor: pointer;
+}
+
+/* Show menu icon when menu is active */
+#sideMenu.active ~ #menuIcon {
+    display: inline-block;
+}
+      
     </style>
     
   </head>
   <body>
 
-    <div class="side-menu" id="sideMenu">
+    <div class="side-menu" style="display: none;" id="sideMenu">
 
     <div class="menu-item"><a href="index.html">Home</a></div>
     
@@ -37,23 +64,33 @@
       </div>
   </body>
   <script>
-    /* Set the width of the sidebar to 250px and the left margin of the page content to 250px */
-const menuIcon = document.getElementById("menuIcon");
+    const menuIcon = document.getElementById("menuIcon");
 const sideMenu = document.getElementById("sideMenu");
-const bodyDiv = document.getElementById("body"); // Selecting the <div> with ID "body"
-const content = document.getElementById("content"); // Selecting the content div
+const bodyDiv = document.getElementById("body");
 
 menuIcon.addEventListener("click", () => {
     sideMenu.classList.toggle("active");
-    bodyDiv.classList.toggle("blur-effect"); // Toggle the blur-effect class on the specified <div>
-});
-
-// Close the menu and remove blur effect when tapping outside
-document.addEventListener("click", (event) => {
-    if (!sideMenu.contains(event.target) && !menuIcon.contains(event.target)) {
-        sideMenu.classList.remove("active");
-        bodyDiv.classList.remove("blur-effect"); // Remove blur from the specified <div>
+    bodyDiv.classList.toggle("blur-effect");
+    // Toggle menu icon display
+    if (sideMenu.classList.contains("active")) {
+        menuIcon.style.display = "none";
+    } else {
+        menuIcon.style.display = "inline-block";
     }
 });
+
+document.addEventListener("click", (event) => {
+    if (!sideMenu.contains(event.target) && !menuIcon.contains(event.target)) {
+        if (sideMenu.classList.contains("active")) {
+            sideMenu.classList.remove("active");
+            bodyDiv.classList.remove("blur-effect");
+            // Ensure menu icon displays correctly after menu closes
+            setTimeout(() => {
+                menuIcon.style.display = "inline-block";
+            }, 300); // Match this timeout with the CSS transition duration
+        }
+    }
+});
+    
   </script>
 </html>
